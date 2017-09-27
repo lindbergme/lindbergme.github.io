@@ -8,18 +8,20 @@ mainGameState.preload = function() {
     game.load.audio("maingame", "assets/music/maingame.mp3")
     game.load.audio("titlescreen", "assets/music/titlescreen.mp3")
     game.load.image("asteroid-medium-01", "assets/images/asteroid-medium-01.png")
+    game.load.image("player-bullet", "assets/images/bullet-fire.png");
 }
 
 mainGameState.create = function() {
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+    
     game.add.sprite(0, 0, "space-bg");
+    
     var x = game.width*0.5;
     var y = game.height*0.9;
     
     //PlayerShip
     this.playerShip = game.add.sprite(x, y, "player-ship");
     this.playerShip.anchor.setTo(0.5, 0.5);
-    
-    game.physics.startSystem(Phaser.Physics.ARCADE);
     game.physics.arcade.enable(this.playerShip);
     
     this.cursors = game.input.keyboard.createCursorKeys();
@@ -27,6 +29,11 @@ mainGameState.create = function() {
     //Asteroids
     this.asteroidTimer = 2.0;
     this.asteroids = game.add.group();
+    
+    //Player Bullets
+    this.fireKey = game.input.keyboard.addKey(Phaser.Keyboard.Z);
+    this.playerBullets = game.add.group();
+    this.fireTimer = 0.4;
     
     //Music
     this.music = game.add.audio("gameover");
@@ -61,6 +68,7 @@ mainGameState.update = function() {
     } else {
         this.playerShip.body.velocity.y = 0;
     }
+    
    //AsteroidTimer 
     this.asteroidTimer -= game.time.physicsElapsed;
     if ( this.asteroidTimer <= 0.0) {
@@ -74,6 +82,19 @@ mainGameState.update = function() {
         }
     }
 }
+    
+    //Player Bullets
+    if ( this.fireKey.isDown ) {
+        this.spawnPlayerBullet();
+    }
+    
+    this.fireTimer -= game.time.physicsElapsed;
+    
+    for (var i = 0; i < this.playerBullets.children.length; i++) {
+        if ( this.playerBullets.children[i].y < -200 ) {
+            this.playerBullets.children[i].destroy();
+        }
+    }
 };
 
 mainGameState.spawnAsteroid = function() {
@@ -87,3 +108,17 @@ mainGameState.spawnAsteroid = function() {
 //Add to the group
     this.asteroids.add(asteroid);
 };
+
+mainGameState.spawnPlayerBullet = function() {
+    if ( this.fireTimer < 0 ) {
+        this.fireTimer = 0.4;
+    
+    var bullet = game.add.sprite(this.player.x, this.player.y, "player-bullet");
+    bullet.anchor.setTo(0.5, 0.5);
+    
+    game.physics.arcade.enable(bullet);
+    bullet.body.velocity.setTo(0, -200);
+    
+    this.playerBullets.add(bullet);
+    }
+}
