@@ -1,0 +1,16 @@
+body {
+    margin: 0px;
+    background: #AA99AA;
+    font-family: Arial;
+}
+
+h1 {
+    color: #990099;
+    text-align: center;
+}
+#gameContainer {
+    width: 500px;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
