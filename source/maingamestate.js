@@ -4,7 +4,6 @@ mainGameState.preload = function() {
     console.log("Pre-loading the Game");
     game.load.image("space-bg", "assets/images/space-bg.jpg")
     game.load.image("player-ship", "assets/images/player-ship.png")
-    game.load.audio("gameover", "assets/music/gameover.mp3")
     game.load.audio("maingame", "assets/music/maingame.mp3")
     game.load.audio("titlescreen", "assets/music/titlescreen.mp3")
     game.load.image("asteroid-medium-01", "assets/images/asteroid-medium-01.png")
@@ -143,6 +142,11 @@ mainGameState.update = function() {
 
     //Score
     this.scoreValue.setText(this.playerScore);
+    
+    //Game Over
+    if ( this.playerLives <= 0 ) {
+        game.state.start("GameOver");
+    }
 };
 
 mainGameState.spawnAsteroid = function() {
@@ -182,6 +186,6 @@ mainGameState.onAsteroidBulletCollision = function(object1, object2) {
    } else { 
     object2.pendingDestroy = true;
    }
-    this.lives -= 1;
+    this.playerLives -= 1;
     this.playerScore += 50;
 }
