@@ -2,7 +2,7 @@ var mainGameState = { }
 
 mainGameState.preload = function() {
     console.log("Pre-loading the Game");
-    game.load.image("space-bg", "assets/images/space-bg.jpg")
+    game.load.image("starfield", "assets/images/starfield.jpg")
     game.load.image("player-ship", "assets/images/player-ship.png")
     game.load.audio("maingame", "assets/music/maingame.mp3")
     game.load.audio("titlescreen", "assets/music/titlescreen.mp3")
@@ -19,7 +19,7 @@ mainGameState.preload = function() {
 mainGameState.create = function() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     
-    game.add.sprite(0, 0, "space-bg");
+    this.tileSprite = game.add.tileSprite(0, 0, 800, 600, "starfield");
     
     var x = game.width*0.5;
     var y = game.height*0.9;
@@ -29,7 +29,7 @@ mainGameState.create = function() {
     this.playerShip.anchor.setTo(0.5, 0.5);
     game.physics.arcade.enable(this.playerShip);
     
-    this.cursors = game.input.keyboard.createCursorKeys();
+    this.cursors = game.input.keyboard.createCursorKeys();  
     
     //Asteroids
     this.asteroidTimer = 2.0;
@@ -108,11 +108,14 @@ mainGameState.update = function() {
         this.playerShip.body.velocity.y = 0;
     }
     
+    //Movement of tileStarfield
+    this.tileSprite.tilePosition.y += 2;
+       
    //AsteroidTimer 
     this.asteroidTimer -= game.time.physicsElapsed;
     if ( this.asteroidTimer <= 0.0 ) {
         this.spawnAsteroid();
-        this.asteroidTimer = 2.0;
+        this.asteroidTimer = 1.5;
     }
     
     //Clean up Asteroids

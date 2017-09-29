@@ -1,12 +1,12 @@
 body {
     margin: 10px;
     background: #AA99AA;
-    font-family: Calibri;
+    font-family: fantasy
 }
 
 h1 {
     margin: 15px;
-    color: #770077;
+    color: black;
     text-align: center;
 }
 #gameContainer {
