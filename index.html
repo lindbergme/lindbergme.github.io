@@ -1,19 +1,20 @@
 <html>
-    <head>The Game
+    <head>The First Game Mady by Maria Nielsen
+        
         <script src="libs/phaser.min.js"></script>
         <script src="source/maingamestate.js"></script>
         <script src="source/gameoverstate.js"></script>
     <link href="style.css" rel="stylesheet" />
     </head>
 <body>
-    <h1>Space it up</h1>
+    <h1>Space Avengers</h1>
     <div id="gameContainer"></div>
     
 <script>
-    var game = new Phaser.Game(400, 600, Phaser.AUTO, 'gameContainer');
+    var game = new Phaser.Game(500, 600, Phaser.AUTO, 'gameContainer');
     game.state.add("MainGame", mainGameState);
     game.state.start("MainGame");
-    game.state.add("GameOver", gaimOverState);
+    game.state.add("GameOver", gameOverState);
 </script>
     </body>
 </html>

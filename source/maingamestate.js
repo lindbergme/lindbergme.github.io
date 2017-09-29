@@ -40,8 +40,7 @@ mainGameState.create = function() {
     this.playerBullets = game.add.group();
     this.fireTimer = 0.4;
     
-    //Music
-    this.music = game.add.audio("gameover");
+    //Music 
     this.music = game.add.audio("maingame");
     this.music = game.add.audio("titlescreen");
     this.music.play();
@@ -79,6 +78,8 @@ mainGameState.create = function() {
     this.livesValue.fixedToCamera = true;
     this.livesValue.anchor.setTo(0.5, 0.5);
     
+    game.physics.arcade.enable(this.playerShip);
+
     this.playerLives = 3;
     
 };
@@ -138,14 +139,17 @@ mainGameState.update = function() {
     game.physics.arcade.collide(this.asteroids, this.playerBullets, this.onAsteroidBulletCollision, null, this);
     
     //Lives
+    game.physics.arcade.collide(this.playerShip, this.asteroids, this.onAsteroidplayerShipCollision, null, this);
+    
     this.livesValue.setText(this.playerLives);
 
     //Score
     this.scoreValue.setText(this.playerScore);
     
-    //Game Over
+    //Game Over    
     if ( this.playerLives <= 0 ) {
         game.state.start("GameOver");
+        this.music.stop ();
     }
 };
 
@@ -181,11 +185,19 @@ mainGameState.spawnPlayerBullet = function() {
 }
 
 mainGameState.onAsteroidBulletCollision = function(object1, object2) {
-   if ( object1.key.includes("asteroid") ) {
+  
     object1.pendingDestroy = true;
-   } else { 
     object2.pendingDestroy = true;
-   }
-    this.playerLives -= 1;
+
     this.playerScore += 50;
+}
+
+mainGameState.onAsteroidplayerShipCollision = function(object1, object2) {
+   if ( object1.key.includes("asteroid") ) {
+        object1.pendingDestroy = true;
+   } else {
+        object2.pendingDestroy = true;
+   }
+
+    this.playerLives -= 1;
 }
