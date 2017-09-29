@@ -115,7 +115,7 @@ mainGameState.update = function() {
     this.asteroidTimer -= game.time.physicsElapsed;
     if ( this.asteroidTimer <= 0.0 ) {
         this.spawnAsteroid();
-        this.asteroidTimer = 1.5;
+        this.asteroidTimer = 1.0;
     }
     
     //Clean up Asteroids

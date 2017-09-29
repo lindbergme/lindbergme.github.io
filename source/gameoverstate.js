@@ -19,7 +19,7 @@ gameOverState.create = function() {
     this.scoreTitle.fixedToCamera = true;
     this.scoreTitle.anchor.setTo(0.5, 0.5);
     
-    this.scoreValue = game.add.text(game.width * 0.5, game.height * 0.8, 0);
+    this.scoreValue = game.add.text(game.width * 0.5, game.height * 0.8, mainGameState.playerScore, textStyle);
     this.scoreValue.fixedToCamera = true;
     this.scoreValue.anchor.setTo(0.5, 0.5);
     
